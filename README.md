@@ -7,3 +7,8 @@ For route optimization, the project uses the Ant Colony Optimization (ACO) algor
 To make this technology accessible, a web-based dashboard was developed using Flask/Django. This interface allows users to view the optimized route, compare fuel consumption across different paths, estimate CO₂ emissions, and receive real-time updates. An added feature is a credit-based incentive system that rewards users for choosing greener routes, encouraging environmentally responsible driving behavior.
 
 The prototype was rigorously tested using sample data and showed promising results, achieving 15–30% fuel savings and up to 40% reduction in emissions compared to traditional navigation methods. In conclusion, this project showcases the effective application of AI, machine learning, and optimization algorithms to solve real-world environmental issues.
+
+
+
+**To Run:**
+python manage.py runserver
