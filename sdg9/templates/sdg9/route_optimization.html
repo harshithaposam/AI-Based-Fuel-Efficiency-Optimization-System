@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Route Finder</title>
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        display: flex;
+        flex-direction: row;
+        height: 100vh;
+        background: #f4f4f9;
+      }
+      #sidebar {
+        width: 320px;
+        padding: 20px;
+        background: #fff;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+      }
+      #map {
+        flex-grow: 1;
+        height: 100%;
+      }
+      .input-group {
+        display: flex;
+        align-items: center;
+        background: #eee;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+      .input-group input {
+        width: 100%;
+        border: none;
+        background: none;
+        padding: 8px;
+        font-size: 16px;
+        outline: none;
+      }
+      .input-group i {
+        margin-right: 10px;
+        color: #555;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        background: #007bff;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      #routeDetails {
+        margin-top: 20px;
+      }
+      .route-info {
+        background: white;
+        padding: 12px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .route-info h3 {
+        font-size: 16px;
+        margin-bottom: 5px;
+        color: #333;
+      }
+      .route-info p {
+        font-size: 14px;
+        margin: 3px 0;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="sidebar">
+<<<<<<< HEAD
+      <h2 style="text-align: center; margin-bottom: 20px"> Route Finder</h2>
+=======
+      <h2 style="text-align: center; margin-bottom: 20px">🚗 Route Finder</h2>
+>>>>>>> a3dcdde747edb1057cfec273ffaa19bf3154cce6
+      <div class="input-group">
+        <i class="fas fa-map-marker-alt"></i>
+        <input id="source" type="text" placeholder="Enter source" />
+      </div>
+      <div class="input-group">
+        <i class="fas fa-map-marker-alt"></i>
+        <input id="destination" type="text" placeholder="Enter destination" />
+      </div>
+      <button id="findRoute">Find Routes</button>
+<<<<<<< HEAD
+      <!-- <button id="simulateTravel">Simulate Travel</button> -->
+      <div id="routeDetails"></div>
+      <div id="optimizedRouteDetails"></div>
+=======
+      <div id="routeDetails"></div>
+>>>>>>> a3dcdde747edb1057cfec273ffaa19bf3154cce6
+    </div>
+    <div id="map"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNOI2YBRJzot3-wFv722bo1f0jo7-B5oE&libraries=places"></script>
+    <script>
+      let map, directionsService;
+      let routeRenderers = [];
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 12,
+<<<<<<< HEAD
+          center: { lat: 12.9772, lng: 77.5937 },
+=======
+          center: { lat: 37.7749, lng: -122.4194 },
+>>>>>>> a3dcdde747edb1057cfec273ffaa19bf3154cce6
+        });
+
+        directionsService = new google.maps.DirectionsService();
+      }
+
+      function setupAutocomplete() {
+        new google.maps.places.Autocomplete(document.getElementById("source"));
+        new google.maps.places.Autocomplete(
+          document.getElementById("destination")
+        );
+      }
+
+      function findRoutes() {
+        const source = document.getElementById("source").value;
+        const destination = document.getElementById("destination").value;
+
+        if (source && destination) {
+          const request = {
+            origin: source,
+            destination: destination,
+            travelMode: google.maps.TravelMode.DRIVING,
+            provideRouteAlternatives: true,
+          };
+
+          directionsService.route(request, (result, status) => {
+            if (status === google.maps.DirectionsStatus.OK) {
+              clearPreviousRoutes();
+              document.getElementById("routeDetails").innerHTML = "";
+
+<<<<<<< HEAD
+              if (result.routes.length === 0) {
+                alert("No routes found.");
+                return;
+              }
+
+              console.log(result);
+
+=======
+>>>>>>> a3dcdde747edb1057cfec273ffaa19bf3154cce6
+              result.routes.forEach((route, index) => {
+                displayRoute(route, result, index);
+                addRouteInfo(route, index);
+              });
+<<<<<<< HEAD
+
+              highlightBestRoute(result.routes);
+=======
+>>>>>>> a3dcdde747edb1057cfec273ffaa19bf3154cce6
+            } else {
+              alert("Failed to get directions: " + status);
+            }
+          });
+        } else {
+          alert("Please enter both source and destination.");
+        }
+      }
+
+      function displayRoute(route, result, index) {
+        const renderer = new google.maps.DirectionsRenderer({
+          map: map,
+          directions: result,
+          routeIndex: index,
+          polylineOptions: {
+            strokeColor: getUniqueColor(index),
+            strokeWeight: 5,
+          },
+          suppressMarkers: false,
+        });
+
+        routeRenderers.push(renderer);
+      }
+
+      function getUniqueColor(index) {
+        const hue = (index * 137.5) % 360;
+<<<<<<< HEAD
+        return `hsl(${hue}, 100%, 75%)`;  // Light color for non-optimal routes
+=======
+        return `hsl(${hue}, 100%, 50%)`;
+>>>>>>> a3dcdde747edb1057cfec273ffaa19bf3154cce6
+      }
+
+      function addRouteInfo(route, index) {
+        const routeInfo = document.createElement("div");
+        routeInfo.classList.add("route-info");
+
+        const distance = route.legs[0].distance.text;
+        const duration = route.legs[0].duration.text;
+
+        routeInfo.innerHTML = `
+<<<<<<< HEAD
+          <h3>Route ${index + 1}</h3>
+          <p><strong>Distance:</strong> ${distance}</p>
+          <p><strong>Time:</strong> ${duration}</p>
+          <button onclick="selectRoute(${index})">Select Route</button>
+        `;
+=======
+                <h3>Route ${index + 1}</h3>
+                <p><strong>Distance:</strong> ${distance}</p>
+                <p><strong>Time:</strong> ${duration}</p>
+            `;
+>>>>>>> a3dcdde747edb1057cfec273ffaa19bf3154cce6
+
+        document.getElementById("routeDetails").appendChild(routeInfo);
+      }
+
+      function clearPreviousRoutes() {
+        routeRenderers.forEach((renderer) => renderer.setMap(null));
+        routeRenderers = [];
+      }
+
+<<<<<<< HEAD
+      function highlightBestRoute(routes) {
+        let minFuelConsumption = Infinity;
+        let bestRouteIndex = -1;
+
+        routes.forEach((route, index) => {
+          const fuelConsumption = calculateFuelConsumption(route.legs[0].distance.value / 1000);
+          if (fuelConsumption < minFuelConsumption) {
+            minFuelConsumption = fuelConsumption;
+            bestRouteIndex = index;
+          }
+        });
+
+        if (bestRouteIndex !== -1) {
+          routeRenderers[bestRouteIndex].setOptions({
+            polylineOptions: {
+              strokeColor: 'green',
+              strokeWeight: 7,
+            }
+          });
+        }
+      }
+
+      function calculateFuelConsumption(distanceKm) {
+        return distanceKm * 0.07;  // 7L/100km as base
+      }
+
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+
+      const csrftoken = getCookie('csrftoken');
+
+      function selectRoute(index) {
+        const routes = routeRenderers.map(renderer => ({
+          fuel_consumption: calculateFuelConsumption(renderer.directions.routes[0].legs[0].distance.value / 1000)
+        }));
+
+        $.ajax({
+          url: '/award_credits/',
+          type: 'POST',
+          headers: { 'X-CSRFToken': csrftoken },
+          contentType: 'application/json',
+          data: JSON.stringify({ selected_route_index: index, routes: routes }),
+          success: function(response) {
+            alert('Credits awarded: ' + response.credits);
+          },
+          error: function(error) {
+            alert('Failed to award credits: ' + error.responseText);
+          }
+        });
+      }
+
+=======
+>>>>>>> a3dcdde747edb1057cfec273ffaa19bf3154cce6
+      document
+        .getElementById("findRoute")
+        .addEventListener("click", findRoutes);
+
+      google.maps.event.addDomListener(window, "load", () => {
+        initMap();
+        setupAutocomplete();
+      });
+    </script>
+  </body>
+</html>

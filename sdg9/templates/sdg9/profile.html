@@ -1,0 +1,80 @@
+{% extends 'sdg9/base.html' %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">User Profile</h2>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" value="{{ user.username }}" disabled>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" value="{{ user.email }}" disabled>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="vehicle_type" class="form-label">Vehicle Type</label>
+                            <select class="form-select" id="vehicle_type" name="vehicle_type">
+                                <option value="two_wheeler" {% if profile.vehicle_type == 'two_wheeler' %}selected{% endif %}>Two Wheeler</option>
+                                <option value="four_wheeler" {% if profile.vehicle_type == 'four_wheeler' %}selected{% endif %}>Four Wheeler</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="credits" class="form-label">Credits</label>
+                            <input type="text" class="form-control" id="credits" value="{{ profile.usercredit.credits }}" readonly>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h3 class="card-title">Your Statistics</h3>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="stat-card">
+                                <h4>Total Routes</h4>
+                                <p class="stat-number">{{ total_routes }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="stat-card">
+                                <h4>Total Distance</h4>
+                                <p class="stat-number">{{ total_distance }} km</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="stat-card">
+                                <h4>Fuel Saved</h4>
+                                <p class="stat-number">{{ fuel_saved }} L</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="stat-card">
+                                <h4>CO2 Reduced</h4>
+                                <p class="stat-number">{{ co2_reduced }} kg</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

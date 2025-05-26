@@ -1,0 +1,128 @@
+{% extends 'sdg9/base.html' %}
+
+{% block content %}
+<div class="analytics-dashboard">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2>Analytics Dashboard</h2>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-primary" data-period="day">Day</button>
+                <button type="button" class="btn btn-outline-primary" data-period="week">Week</button>
+                <button type="button" class="btn btn-outline-primary" data-period="month">Month</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card metric-card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Routes</h5>
+                    <h2 class="metric-value" id="totalRoutes">0</h2>
+                    <p class="metric-change" id="routesChange">+0%</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card metric-card">
+                <div class="card-body">
+                    <h5 class="card-title">Fuel Saved</h5>
+                    <h2 class="metric-value" id="fuelSaved">0L</h2>
+                    <p class="metric-change" id="fuelChange">+0%</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card metric-card">
+                <div class="card-body">
+                    <h5 class="card-title">CO2 Reduced</h5>
+                    <h2 class="metric-value" id="co2Reduced">0kg</h2>
+                    <p class="metric-change" id="co2Change">+0%</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card metric-card">
+                <div class="card-body">
+                    <h5 class="card-title">Efficiency Score</h5>
+                    <h2 class="metric-value" id="efficiencyScore">0</h2>
+                    <p class="metric-change" id="efficiencyChange">+0%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Route Efficiency Trends</h5>
+                    <canvas id="efficiencyTrendsChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Environmental Impact</h5>
+                    <canvas id="environmentalImpactChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Weather Impact Analysis</h5>
+                    <canvas id="weatherImpactChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Traffic Pattern Analysis</h5>
+                    <canvas id="trafficPatternChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Routes Table -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Recent Routes</h5>
+                    <div class="table-responsive">
+                        <table class="table" id="recentRoutesTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Route</th>
+                                    <th>Distance</th>
+                                    <th>Fuel Used</th>
+                                    <th>CO2 Emissions</th>
+                                    <th>Efficiency Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/analytics.js' %}"></script>
+{% endblock %}

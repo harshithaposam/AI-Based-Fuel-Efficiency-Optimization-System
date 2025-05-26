@@ -1,0 +1,69 @@
+{% extends 'sdg9/base.html' %}
+{% load static %}
+{% block content %}
+<div class="insights-container">
+    <h2 class="mb-4">Your Route Insights</h2>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Recent Routes</h5>
+                    {% if routes %}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Route</th>
+                                        <th>Distance</th>
+                                        <th>Fuel Used</th>
+                                        <th>CO2 Emissions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for route in routes %}
+                                    <tr>
+                                        <td>{{ route.created_at|date:"M d, Y" }}</td>
+                                        <td>{{ route.source }} to {{ route.destination }}</td>
+                                        <td>{{ route.distance }} km</td>
+                                        <td>{{ route.fuel_consumption }} L</td>
+                                        <td>{{ route.carbon_emissions }} kg</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p>No routes found. Start planning your first route!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Efficiency Tips</h5>
+                    <div id="weatherTips" class="mb-3">
+                        <h6>Weather-based Tips</h6>
+                        <ul class="list-unstyled">
+                            <!-- Tips will be populated via JavaScript -->
+                        </ul>
+                    </div>
+                    <div id="trafficTips">
+                        <h6>Traffic-based Tips</h6>
+                        <ul class="list-unstyled">
+                            <!-- Tips will be populated via JavaScript -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/insights.js' %}"></script>
+{% endblock %}

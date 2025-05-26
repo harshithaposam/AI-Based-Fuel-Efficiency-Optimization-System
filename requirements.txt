@@ -1,0 +1,17 @@
+django
+python-dotenv
+requests
+googlemaps
+django-crispy-forms
+django-allauth
+channels
+channels-redis
+redis
+celery
+
+redis
+pandas
+matplotlib
+reportlab
+xlsxwriter
+django-redis

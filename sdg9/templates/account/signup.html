@@ -1,0 +1,101 @@
+{% extends "sdg9/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-header">
+        <h1>{% trans "Create Account" %}</h1>
+        <p>{% trans "Please fill in the form to create your account." %}</p>
+    </div>
+
+    <form class="signup" method="POST" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+        
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label class="form-label" for="id_email">{% trans "Email" %}</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+            <div class="alert alert-danger mt-2">
+                {{ form.email.errors }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="id_username">{% trans "Username" %}</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+            <div class="alert alert-danger mt-2">
+                {{ form.username.errors }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="id_password1">{% trans "Password" %}</label>
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+            <div class="alert alert-danger mt-2">
+                {{ form.password1.errors }}
+            </div>
+            {% endif %}
+            {% if form.password1.help_text %}
+            <small class="form-text text-muted">{{ form.password1.help_text }}</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="id_password2">{% trans "Confirm Password" %}</label>
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+            <div class="alert alert-danger mt-2">
+                {{ form.password2.errors }}
+            </div>
+            {% endif %}
+        </div>
+
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+
+        <button type="submit" class="btn-auth">{% trans "Create Account" %}</button>
+
+        <div class="auth-links">
+            <p>{% trans "Already have an account?" %} <a href="{% url 'account_login' %}">{% trans "Sign In" %}</a></p>
+        </div>
+
+        {% get_providers as socialaccount_providers %}
+        {% if socialaccount_providers %}
+        <div class="social-login">
+            <p>{% trans "Or sign up with:" %}</p>
+            {% for provider in socialaccount_providers %}
+                {% if provider.id == "google" %}
+                <a href="{% provider_login_url 'google' %}" class="social-btn google-btn">
+                    Google
+                </a>
+                {% endif %}
+                {% if provider.id == "facebook" %}
+                <a href="{% provider_login_url 'facebook' %}" class="social-btn facebook-btn">
+                    Facebook
+                </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

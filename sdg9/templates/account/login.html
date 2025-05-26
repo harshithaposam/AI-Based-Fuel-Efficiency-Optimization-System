@@ -1,0 +1,86 @@
+{% extends "sdg9/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-header">
+        <h1>{% trans "Sign In" %}</h1>
+        <p>Welcome back! Please sign in to continue.</p>
+    </div>
+
+    <form class="login" method="POST" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label class="form-label" for="id_login">{% trans "Email or Username" %}</label>
+            {{ form.login }}
+            {% if form.login.errors %}
+            <div class="alert alert-danger mt-2">
+                {{ form.login.errors }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="id_password">{% trans "Password" %}</label>
+            {{ form.password }}
+            {% if form.password.errors %}
+            <div class="alert alert-danger mt-2">
+                {{ form.password.errors }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-check">
+                {{ form.remember }}
+                {% trans "Remember Me" %}
+            </label>
+        </div>
+
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+
+        <button type="submit" class="btn-auth">{% trans "Sign In" %}</button>
+
+        <div class="auth-links">
+            <a href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+            <a href="{% url 'account_signup' %}">{% trans "Create Account" %}</a>
+        </div>
+
+        {% get_providers as socialaccount_providers %}
+        {% if socialaccount_providers %}
+        <div class="social-login">
+            <p>{% trans "Or sign in with:" %}</p>
+            {% for provider in socialaccount_providers %}
+                {% if provider.id == "google" %}
+                <a href="{% provider_login_url 'google' %}" class="social-btn google-btn">
+                    Google
+                </a>
+                {% endif %}
+                {% if provider.id == "facebook" %}
+                <a href="{% provider_login_url 'facebook' %}" class="social-btn facebook-btn">
+                    Facebook
+                </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

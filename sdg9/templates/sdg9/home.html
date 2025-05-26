@@ -1,0 +1,49 @@
+{% extends 'sdg9/base.html' %}
+
+{% block content %}
+<div class="hero-section text-center py-5">
+    <h1 class="display-4">Welcome to Eco-Route Optimizer</h1>
+    <p class="lead">Find the most fuel-efficient route for your journey while reducing carbon emissions</p>
+    
+    {% if user.is_authenticated %}
+        <div class="cta-buttons mt-4">
+            <a href="{% url 'route_optimization' %}" class="btn btn-primary btn-lg mx-2">Start Route Planning</a>
+            <a href="{% url 'factor_analysis' %}" class="btn btn-success btn-lg mx-2">View Factor Analysis</a>
+        </div>
+    {% else %}
+        <div class="cta-buttons mt-4">
+            <a href="{% url 'account_signup' %}" class="btn btn-primary btn-lg mx-2">Get Started</a>
+            <a href="{% url 'account_login' %}" class="btn btn-outline-primary btn-lg mx-2">Login</a>
+        </div>
+    {% endif %}
+</div>
+
+<div class="features-section py-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Route Optimization</h5>
+                    <p class="card-text">Calculate the most fuel-efficient routes considering weather, traffic, and elevation data.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Factor Analysis</h5>
+                    <p class="card-text">Understand how different factors affect your fuel consumption and carbon emissions.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Smart Insights</h5>
+                    <p class="card-text">Get personalized recommendations to improve your vehicle's efficiency.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
